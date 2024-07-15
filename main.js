@@ -39,11 +39,11 @@ fetch(`${apiUrl}/posts`)
     
 
 
-    document.getElementById("post-tags").innerHTML = "";
+    // document.getElementById("post-tags").innerHTML = "";
 
-    data.data.forEach(tag => {
-        console.log(tag); 
-    });
+    // data.data.forEach(tag => {
+    //     console.log(tag); 
+    // });
 
   })
   .catch((error) => console.error("Error fetching posts:", error));
@@ -51,6 +51,7 @@ fetch(`${apiUrl}/posts`)
 
 
 // function loginBtnClicked() {
+
 //   const username = document.getElementById("userName").value;
 //   const password = document.getElementById("Password").value;
 //   const example = document.getElementById("example");
@@ -95,6 +96,9 @@ fetch(`${apiUrl}/posts`)
 // }
 
 
+
+// when the user want to log in 
+
 function loginBtnClicked() {
   const username = document.getElementById("userName").value;
   const password = document.getElementById("Password").value;
@@ -133,14 +137,58 @@ function loginBtnClicked() {
       const modalInstance = bootstrap.Modal.getInstance(Modal); 
       modalInstance.hide(); // how to hide the window on bootsrap by adding hide function
       SetupUI();
-      showSuccessMsg();
+      showSuccessMsg("You have successfully logged in");
     })
     .catch((err) => console.error('Error:', err.message));
     
 }
 
 
-function showSuccessMsg() {
+
+//  when the user want to register 
+
+function registerBtnClicked() {
+
+  const name = document.getElementById("register-name").value;
+  const username = document.getElementById("register-username").value;
+  const password = document.getElementById("register-password").value;
+  const Modal = document.getElementById("register-modal");
+
+  const data = {
+    name: name,
+    username: username,
+    password: password,
+
+  };
+
+  fetch(`${apiUrl}/register`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok " + response.statusText);
+      }
+      return response.json();
+    })
+    .then((json) => {
+      console.log(json);
+      localStorage.setItem("token", json.token);
+      localStorage.setItem("user", JSON.stringify(json.user));
+
+      const modalInstance = bootstrap.Modal.getInstance(Modal); 
+      modalInstance.hide(); // how to hide the window on bootsrap by adding hide function
+      SetupUI();
+      showSuccessMsg('You have successfully registered');
+    })
+    .catch((err) => console.error('Error:', err.message));
+}
+
+// msg of successfull log in 
+function showSuccessMsg(message) {
   const alertPlaceholder = document.getElementById('successAlert')
 
   const appendAlert = (message, type) => {
@@ -158,11 +206,13 @@ function showSuccessMsg() {
     }, 3000);
   }
 
-  appendAlert('You have successfully logged in');
+  appendAlert(message);
     
 }
 
-function showLogoutMsg() {
+
+// msg of log out 
+function showLogoutMsg(message) {
   const alertPlaceholder = document.getElementById('LogoutAlert')
 
   const appendAlert = (message, type) => {
@@ -180,11 +230,13 @@ function showLogoutMsg() {
     }, 3000);
   }
 
-  appendAlert('You have logged out');
+  appendAlert(message);
     
 }
 
 
+
+// dispaly and hide buttton of login logout and register 
 function SetupUI() {
     const token = localStorage.getItem("token");
     const loggedIN = document.querySelector("#logged-in");
@@ -207,6 +259,6 @@ function logout() {
   localStorage.removeItem("token");
   localStorage.removeItem("user");
   SetupUI();
-  showLogoutMsg();
+  showLogoutMsg('You have logged out');
   
 }
