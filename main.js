@@ -6,8 +6,13 @@ fetch(`${apiUrl}/posts`)
   .then((response) => response.json())
   .then((data) => {
     const postsContainer = document.getElementById("posts-container");
-    // console.log(data);
-    data.data.forEach((post) => {
+    console.log(data);
+
+    const postsArray = Object.values(data.data);
+
+    postsArray.forEach((post) => {  
+      
+
       const postCard = `
                   <div class="card text-center mb-3">
                       <div class="card-header">
@@ -15,17 +20,31 @@ fetch(`${apiUrl}/posts`)
                           <p class="fw-bold">@${post.author.name}</p>
                       </div>
                       <div class="card-body">
-                          <img class="w-100" src="${post.image}" style="height: 100px; width: 100px;" alt="">
+                          <img class="w-100" src="${post.image}" style="height: 250px; width: 100px;" alt="">
                           <h5 class="mt-2">${post.author.username}</h5>
                           <p class="mt-1">${post.title}</p>
                       </div>
                       <div class="card-footer text-body-secondary">
-                          ${post.created_at}
+                          ${post.created_at} <span> / ${post.comments_count} Comments </span>
+
+                          <span id="post-tags">
+                                <button class="btn btn-sm rounded-5" style="background-color:gray; color: white"> policy </button>                          
+                          </span>
                       </div>
                   </div>
               `;
       postsContainer.innerHTML += postCard;
+
     });
+    
+
+
+    document.getElementById("post-tags").innerHTML = "";
+
+    data.data.forEach(tag => {
+        console.log(tag); 
+    });
+
   })
   .catch((error) => console.error("Error fetching posts:", error));
 
@@ -114,37 +133,62 @@ function loginBtnClicked() {
       const modalInstance = bootstrap.Modal.getInstance(Modal); 
       modalInstance.hide(); // how to hide the window on bootsrap by adding hide function
       SetupUI();
+      showSuccessMsg();
     })
     .catch((err) => console.error('Error:', err.message));
+    
 }
 
 
-// function showAlertFunction() {
-//   const alertPlaceholder = document.getElementById('successAlert')
-//   const appendAlert = (message, type) => {
-//     const wrapper = document.createElement('div')
-//     wrapper.innerHTML = [
-//       `<div class="alert alert-${type} alert-dismissible" role="alert">`,
-//       `   <div>${message}</div>`,
-//       '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-//       '</div>'
-//     ].join('')
+function showSuccessMsg() {
+  const alertPlaceholder = document.getElementById('successAlert')
+
+  const appendAlert = (message, type) => {
+    const wrapper = document.createElement('div')
+    wrapper.innerHTML = [
+      `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+      `   <div>${message}</div>`,
+      '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+      '</div>'
+    ].join('')
   
-//     alertPlaceholder.append(wrapper)
-//   }
+    alertPlaceholder.append(wrapper);
+    setTimeout(() => {
+      wrapper.remove();
+    }, 3000);
+  }
+
+  appendAlert('You have successfully logged in');
+    
+}
+
+function showLogoutMsg() {
+  const alertPlaceholder = document.getElementById('LogoutAlert')
+
+  const appendAlert = (message, type) => {
+    const wrapper = document.createElement('div')
+    wrapper.innerHTML = [
+      `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+      `   <div>${message}</div>`,
+      '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+      '</div>'
+    ].join('')
   
-//   const alertTrigger = document.getElementById('liveAlertBtn')
-//   if (alertTrigger) {
-//     alertTrigger.addEventListener('click', () => {
-//       appendAlert('Nice, you triggered this alert message!', 'success')
-//     })
-//   }
-// }
+    alertPlaceholder.append(wrapper);
+    setTimeout(() => {
+      wrapper.remove();
+    }, 3000);
+  }
+
+  appendAlert('You have logged out');
+    
+}
 
 
 function SetupUI() {
     const token = localStorage.getItem("token");
-    const loggedIN = document.getElementById("logged-in");
+    const loggedIN = document.querySelector("#logged-in");
+    console.log(loggedIN);
     const logOut = document.getElementById("logged-out");
 
     if (token == null) {
@@ -163,5 +207,6 @@ function logout() {
   localStorage.removeItem("token");
   localStorage.removeItem("user");
   SetupUI();
+  showLogoutMsg();
   
 }

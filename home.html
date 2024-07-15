@@ -8,8 +8,11 @@
       rel="stylesheet"
       href="/node_modules/bootstrap/dist/css/bootstrap.min.css"
     />
-    <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js" defer></script>
-    <script  src="main.js" defer></script>
+    <script
+      src="/node_modules/bootstrap/dist/js/bootstrap.min.js"
+      defer
+    ></script>
+    <script src="main.js" defer></script>
   </head>
   <style>
     body {
@@ -47,21 +50,35 @@
                 <a class="nav-link disabled" aria-disabled="true">Disabled</a>
               </li>
             </ul>
-            <div id="logged-in" class="d-flex w-100 justify-content-end">
-              <button  type="button" class="btn btn-success mx-2" data-bs-toggle="modal" data-bs-target="#exampleModal">Log in</button>
-              <button  type="button" class="btn btn-success">Register</button>
+            <div class="d-flex w-100 justify-content-end">
+              <div id="logged-in">
+                <button
+                  type="button"
+                  class="btn btn-success mx-2"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
+                >
+                  Log in
+                </button>
+                <button type="button" class="btn btn-success">Register</button>
+              </div>
             </div>
 
-            <div id="logged-out" class="d-flex w-100 justify-content-end">
-              <button onclick="logout()"  type="button" class="btn btn-danger">Logout</button>
+            <div class="d-flex w-100 justify-content-end">
+              <button
+                id="logged-out"
+                onclick="logout()"
+                type="button"
+                class="btn btn-danger"
+              >
+                Logout
+              </button>
             </div>
-
-
           </div>
         </div>
       </nav>
     </div>
-<!-- 
+    <!-- 
     <div style="height: 600px">
       <div class="d-flex w-100 justify-content-center mt-3">
         <div class="posts">
@@ -153,45 +170,83 @@
         </div>
       </div>
     </div> -->
-
+    <div class="div" style="display: flex; justify-content: center">
+      <div id="successAlert" style="width: 26%; text-align: center"></div>
+    </div>
+    <div class="div" style="display: flex; justify-content: center">
+      <div id="LogoutAlert" style="width: 26%; text-align: center"></div>
+    </div>
 
     <div style="height: 1000px">
       <div class="d-flex w-100 justify-content-center mt-3">
-          <div id="posts-container" class="posts">
-              <!-- Posts will be dynamically inserted here -->
-          </div>
+        <div id="posts-container" style="width: 500px;" class="posts">
+          <!-- Posts will be dynamically inserted here -->
+        </div>
       </div>
     </div>
-
-    <div id="successAlert"></div>
-
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <!-- log in  button -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel">Login</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
             <form>
               <div class="mb-3">
-                <label for="recipient-name" class="col-form-label" >Username:</label>
-                <input type="text" class="form-control" id="userName" value="rockchta">
+                <label for="recipient-name" class="col-form-label"
+                  >Username:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="userName"
+                  value="rockchta"
+                />
               </div>
               <div class="mb-3">
-                <label for="message-text" class="col-form-label" >Password:</label>
-                <input type="password" class="form-control" id="Password" value="123456">
+                <label for="message-text" class="col-form-label"
+                  >Password:</label
+                >
+                <input
+                  type="password"
+                  class="form-control"
+                  id="Password"
+                  value="123456"
+                />
               </div>
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" onclick="loginBtnClicked()">Login</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="loginBtnClicked()"
+            >
+              Login
+            </button>
           </div>
         </div>
       </div>
     </div>
-
-
   </body>
 </html>
