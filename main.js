@@ -6,7 +6,7 @@ fetch(`${apiUrl}/posts`)
   .then((response) => response.json())
   .then((data) => {
     const postsContainer = document.getElementById("posts-container");
-    console.log(data);
+
 
     const postsArray = Object.values(data.data);
 
@@ -99,10 +99,13 @@ fetch(`${apiUrl}/posts`)
 
 // when the user want to log in 
 
+
+
 function loginBtnClicked() {
   const username = document.getElementById("userName").value;
   const password = document.getElementById("Password").value;
   const Modal = document.getElementById("exampleModal");
+  const ApiUser = document.getElementById("api-username");
 
   const data = {
     username: username,
@@ -123,7 +126,7 @@ function loginBtnClicked() {
       return response.json();
     })
     .then((json) => {
-      console.log(json); // Log the JSON response for debugging
+      // Log the JSON response for debugging
       // Check if 'token' and 'user' exist in the JSON response
       // if (json.token && json.user) {
       //   localStorage.setItem("token", json.token);
@@ -138,6 +141,10 @@ function loginBtnClicked() {
       modalInstance.hide(); // how to hide the window on bootsrap by adding hide function
       SetupUI();
       showSuccessMsg("You have successfully logged in");
+      // console.log(json.user.username);
+
+      ApiUser.innerHTML = json.user.username;
+      
     })
     .catch((err) => console.error('Error:', err.message));
     
@@ -175,7 +182,6 @@ function registerBtnClicked() {
       return response.json();
     })
     .then((json) => {
-      console.log(json);
       localStorage.setItem("token", json.token);
       localStorage.setItem("user", JSON.stringify(json.user));
 
@@ -183,6 +189,7 @@ function registerBtnClicked() {
       modalInstance.hide(); // how to hide the window on bootsrap by adding hide function
       SetupUI();
       showSuccessMsg('You have successfully registered');
+   
     })
     .catch((err) => console.error('Error:', err.message));
 }
@@ -240,15 +247,24 @@ function showLogoutMsg(message) {
 function SetupUI() {
     const token = localStorage.getItem("token");
     const loggedIN = document.querySelector("#logged-in");
-    console.log(loggedIN);
     const logOut = document.getElementById("logged-out");
+    const ApiUser = document.getElementById("api-username");
 
     if (token == null) {
       logOut.style.setProperty("display", "none", "important")
-      loggedIN.style.setProperty("display", "block", "important") 
+      loggedIN.style.setProperty("display", "block", "important")
+      ApiUser.style.setProperty("display", "none", "important")
+
     }else{
       logOut.style.setProperty("display", "block", "important") 
       loggedIN.style.setProperty("display", "none","important" )
+      ApiUser.style.setProperty("display", "block", "important")
+
+      const user = JSON.parse(localStorage.getItem("user"));
+      console.log(user);
+      if (user) {
+        ApiUser.innerHTML = user.username;
+      }
     }
     
 
