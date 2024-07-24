@@ -249,16 +249,19 @@ function SetupUI() {
     const loggedIN = document.querySelector("#logged-in");
     const logOut = document.getElementById("logged-out");
     const ApiUser = document.getElementById("api-username");
+    const createPostButton = document.getElementById("createPostButton");
 
     if (token == null) {
       logOut.style.setProperty("display", "none", "important")
       loggedIN.style.setProperty("display", "block", "important")
       ApiUser.style.setProperty("display", "none", "important")
+      createPostButton.style.setProperty("display", "none", "important");
 
     }else{
       logOut.style.setProperty("display", "block", "important") 
       loggedIN.style.setProperty("display", "none","important" )
       ApiUser.style.setProperty("display", "block", "important")
+      createPostButton.style.setProperty("display", "block", "important");
 
       const user = JSON.parse(localStorage.getItem("user"));
       console.log(user);
@@ -277,4 +280,48 @@ function logout() {
   SetupUI();
   showLogoutMsg('You have logged out');
   
+}
+
+
+function createPost() {
+  const title = document.getElementById("postTitle").value;
+  const body = document.getElementById("postBody").value;
+  const imageFile = document.getElementById("postImage").files[0];
+
+  // Check if the user is logged in
+  const token = localStorage.getItem("token");
+  if (!token) {
+    alert("You need to be logged in to create a post.");
+    return;
+  }
+
+  // Prepare the form data
+  const formData = new FormData();
+  formData.append("title", title);
+  formData.append("body", body);
+  formData.append("image", imageFile);
+
+  fetch(`${apiUrl}/posts`, {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${token}`, // Include token for authentication
+    },
+    body: formData,
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok " + response.statusText);
+      }
+      return response.json();
+    })
+    .then(json => {
+      showSuccessMsg("Post created successfully!");
+      SetupUI(); 
+      document.getElementById("createPostForm").reset(); // Reset form fields
+      const modalInstance = bootstrap.Modal.getInstance(document.getElementById("createPostModal"));
+      modalInstance.hide();
+    })
+    .catch(error => {
+      console.error("Error creating post:", error);
+    });
 }
