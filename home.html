@@ -68,9 +68,19 @@
                 >
                   Register
                 </button>
+                <button
+                id="createPostButton"
+                type="button"
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#createPostModal"
+                style="display: none;"
+              >
+                Create Post
+              </button>
               </div>
             </div>
-            <div id="api-username" class="btn btn-danger" ></div>
+            <div id="api-username" class="btn btn-danger"></div>
             <div id="api-profile"></div>
 
             <div class="d-flex w-100 justify-content-end">
@@ -260,76 +270,144 @@
 
     <!-- register button -->
     <div
-    class="modal fade"
-    id="register-modal"
-    tabindex="-1"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="register-modal">Register a new User: </h1>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="mb-3">
-              <label for="recipient-name" class="col-form-label"
-                >Name:</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="register-name"
-              />
-            </div>
-            <div class="mb-3">
-              <label for="recipient-name" class="col-form-label"
-                >UserName:</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="register-username"
-              />
-            </div>
-            <div class="mb-3">
-              <label for="message-text" class="col-form-label"
-                >Password:</label
-              >
-              <input
-                type="password"
-                class="form-control"
-                id="register-password"
-               
-              />
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            Close
-          </button>
-          <button
-            type="button"
-            class="btn btn-primary"
-            onclick="registerBtnClicked()"
-          >
-            Register
-          </button>
+      class="modal fade"
+      id="register-modal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="register-modal">
+              Register a new User:
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">Name:</label>
+                <input type="text" class="form-control" id="register-name" />
+              </div>
+              <div class="mb-3">
+                <label for="recipient-name" class="col-form-label"
+                  >UserName:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="register-username"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="message-text" class="col-form-label"
+                  >Password:</label
+                >
+                <input
+                  type="password"
+                  class="form-control"
+                  id="register-password"
+                />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="registerBtnClicked()"
+            >
+              Register
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+
+    <!-- Create Post Modal -->
+    <div
+      class="modal fade"
+      id="createPostModal"
+      tabindex="-1"
+      aria-labelledby="createPostModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="createPostModalLabel">
+              Create a New Post
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="createPostForm">
+              <div class="mb-3">
+                <label for="postTitle" class="col-form-label">Title:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="postTitle"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="postBody" class="col-form-label">Body:</label>
+                <textarea
+                  class="form-control"
+                  id="postBody"
+                  rows="3"
+                  required
+                ></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="postImage" class="col-form-label">Image:</label>
+                <input
+                  type="file"
+                  class="form-control"
+                  id="postImage"
+                  accept="image/*"
+                  required
+                />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="createPost()"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
