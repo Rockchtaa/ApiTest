@@ -301,6 +301,8 @@ function createPost() {
   formData.append("body", body);
   formData.append("image", imageFile);
 
+  console.log(formData.title);
+
   fetch(`${apiUrl}/posts`, {
     method: "POST",
     headers: {
