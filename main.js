@@ -1,4 +1,3 @@
-
 SetupUI();
 const apiUrl = "https://tarmeezacademy.com/api/v1";
 
@@ -7,12 +6,9 @@ fetch(`${apiUrl}/posts`)
   .then((data) => {
     const postsContainer = document.getElementById("posts-container");
 
-
     const postsArray = Object.values(data.data);
 
-    postsArray.forEach((post) => {  
-      
-
+    postsArray.forEach((post) => {
       const postCard = `
                   <div class="card text-center mb-3">
                       <div class="card-header">
@@ -34,21 +30,15 @@ fetch(`${apiUrl}/posts`)
                   </div>
               `;
       postsContainer.innerHTML += postCard;
-
     });
-    
-
 
     // document.getElementById("post-tags").innerHTML = "";
 
     // data.data.forEach(tag => {
-    //     console.log(tag); 
+    //     console.log(tag);
     // });
-
   })
   .catch((error) => console.error("Error fetching posts:", error));
-
-
 
 // function loginBtnClicked() {
 
@@ -72,8 +62,6 @@ fetch(`${apiUrl}/posts`)
 
 //       console.log(response);
 
-
-
 //       if (!response.ok) {
 //         console.log("there is an error");
 //       }
@@ -86,7 +74,7 @@ fetch(`${apiUrl}/posts`)
 //       }
 //     })
 
-//     .then((json) => 
+//     .then((json) =>
 //       console.log(json);
 //       localStorage.setItem("token", response.data.token)
 //       localStorage.setItem("user", JSON.stringify(response.data.user))
@@ -95,11 +83,7 @@ fetch(`${apiUrl}/posts`)
 //   // console.log("Username:", username, "Password:", password);
 // }
 
-
-
-// when the user want to log in 
-
-
+// when the user want to log in
 
 function loginBtnClicked() {
   const username = document.getElementById("userName").value;
@@ -137,25 +121,19 @@ function loginBtnClicked() {
       localStorage.setItem("token", json.token);
       localStorage.setItem("user", JSON.stringify(json.user));
 
-      const modalInstance = bootstrap.Modal.getInstance(Modal); 
+      const modalInstance = bootstrap.Modal.getInstance(Modal);
       modalInstance.hide(); // how to hide the window on bootsrap by adding hide function
       SetupUI();
       showSuccessMsg("You have successfully logged in");
       // console.log(json.user.username);
 
       ApiUser.innerHTML = json.user.username;
-      
     })
-    .catch((err) => console.error('Error:', err.message));
-    
+    .catch((err) => console.error("Error:", err.message));
 }
 
-
-
-//  when the user want to register 
-
+//  when the user want to register
 function registerBtnClicked() {
-
   const name = document.getElementById("register-name").value;
   const username = document.getElementById("register-username").value;
   const password = document.getElementById("register-password").value;
@@ -165,7 +143,6 @@ function registerBtnClicked() {
     name: name,
     username: username,
     password: password,
-
   };
 
   fetch(`${apiUrl}/register`, {
@@ -185,103 +162,91 @@ function registerBtnClicked() {
       localStorage.setItem("token", json.token);
       localStorage.setItem("user", JSON.stringify(json.user));
 
-      const modalInstance = bootstrap.Modal.getInstance(Modal); 
+      const modalInstance = bootstrap.Modal.getInstance(Modal);
       modalInstance.hide(); // how to hide the window on bootsrap by adding hide function
       SetupUI();
-      showSuccessMsg('You have successfully registered');
-   
+      showSuccessMsg("You have successfully registered");
     })
-    .catch((err) => console.error('Error:', err.message));
+    .catch((err) => console.error("Error:", err.message));
 }
 
-// msg of successfull log in 
+// msg of successfull log in
 function showSuccessMsg(message) {
-  const alertPlaceholder = document.getElementById('successAlert')
+  const alertPlaceholder = document.getElementById("successAlert");
 
   const appendAlert = (message, type) => {
-    const wrapper = document.createElement('div')
+    const wrapper = document.createElement("div");
     wrapper.innerHTML = [
       `<div class="alert alert-${type} alert-dismissible" role="alert">`,
       `   <div>${message}</div>`,
       '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-      '</div>'
-    ].join('')
-  
+      "</div>",
+    ].join("");
+
     alertPlaceholder.append(wrapper);
     setTimeout(() => {
       wrapper.remove();
     }, 3000);
-  }
+  };
 
   appendAlert(message);
-    
 }
 
-
-// msg of log out 
+// msg of log out
 function showLogoutMsg(message) {
-  const alertPlaceholder = document.getElementById('LogoutAlert')
+  const alertPlaceholder = document.getElementById("LogoutAlert");
 
   const appendAlert = (message, type) => {
-    const wrapper = document.createElement('div')
+    const wrapper = document.createElement("div");
     wrapper.innerHTML = [
       `<div class="alert alert-${type} alert-dismissible" role="alert">`,
       `   <div>${message}</div>`,
       '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-      '</div>'
-    ].join('')
-  
+      "</div>",
+    ].join("");
+
     alertPlaceholder.append(wrapper);
     setTimeout(() => {
       wrapper.remove();
     }, 3000);
-  }
+  };
 
   appendAlert(message);
-    
 }
 
-
-
-// dispaly and hide buttton of login logout and register 
+// dispaly and hide buttton of login logout and register
 function SetupUI() {
-    const token = localStorage.getItem("token");
-    const loggedIN = document.querySelector("#logged-in");
-    const logOut = document.getElementById("logged-out");
-    const ApiUser = document.getElementById("api-username");
-    const createPostButton = document.getElementById("createPostButton");
+  const token = localStorage.getItem("token");
+  const loggedIN = document.querySelector("#logged-in");
+  const logOut = document.getElementById("logged-out");
+  const ApiUser = document.getElementById("api-username");
+  const createPostButton = document.getElementById("createPostButton");
 
-    if (token == null) {
-      logOut.style.setProperty("display", "none", "important")
-      loggedIN.style.setProperty("display", "block", "important")
-      ApiUser.style.setProperty("display", "none", "important")
-      createPostButton.style.setProperty("display", "none", "important");
+  if (token == null) {
+    logOut.style.setProperty("display", "none", "important");
+    loggedIN.style.setProperty("display", "block", "important");
+    ApiUser.style.setProperty("display", "none", "important");
+    createPostButton.style.setProperty("display", "none", "important");
+  } else {
+    logOut.style.setProperty("display", "block", "important");
+    loggedIN.style.setProperty("display", "none", "important");
+    ApiUser.style.setProperty("display", "block", "important");
+    createPostButton.style.setProperty("display", "block", "important");
 
-    }else{
-      logOut.style.setProperty("display", "block", "important") 
-      loggedIN.style.setProperty("display", "none","important" )
-      ApiUser.style.setProperty("display", "block", "important")
-      createPostButton.style.setProperty("display", "block", "important");
-
-      const user = JSON.parse(localStorage.getItem("user"));
-      console.log(user);
-      if (user) {
-        ApiUser.innerHTML = user.username;
-      }
+    const user = JSON.parse(localStorage.getItem("user"));
+    console.log(user);
+    if (user) {
+      ApiUser.innerHTML = user.username;
     }
-    
-
   }
+}
 
 function logout() {
-
   localStorage.removeItem("token");
   localStorage.removeItem("user");
   SetupUI();
-  showLogoutMsg('You have logged out');
-  
+  showLogoutMsg("You have logged out");
 }
-
 
 function createPost() {
   const title = document.getElementById("postTitle").value;
@@ -306,24 +271,26 @@ function createPost() {
   fetch(`${apiUrl}/posts`, {
     method: "POST",
     headers: {
-      "Authorization": `Bearer ${token}`, // Include token for authentication
+      Authorization: `Bearer ${token}`, // Include token for authentication
     },
     body: formData,
   })
-    .then(response => {
+    .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok " + response.statusText);
       }
       return response.json();
     })
-    .then(json => {
+    .then((json) => {
       showSuccessMsg("Post created successfully!");
-      SetupUI(); 
+      SetupUI();
       document.getElementById("createPostForm").reset(); // Reset form fields
-      const modalInstance = bootstrap.Modal.getInstance(document.getElementById("createPostModal"));
+      const modalInstance = bootstrap.Modal.getInstance(
+        document.getElementById("createPostModal")
+      );
       modalInstance.hide();
     })
-    .catch(error => {
+    .catch((error) => {
       console.error("Error creating post:", error);
     });
 }
