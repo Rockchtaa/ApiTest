@@ -40,48 +40,6 @@ fetch(`${apiUrl}/posts`)
   })
   .catch((error) => console.error("Error fetching posts:", error));
 
-// function loginBtnClicked() {
-
-//   const username = document.getElementById("userName").value;
-//   const password = document.getElementById("Password").value;
-//   const example = document.getElementById("example");
-
-//   const data = {
-//     username: username,
-//     password: password,
-//   };
-
-//   fetch(`${apiUrl}/login`, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(data),
-//   })
-//     .then((response) => {
-
-//       console.log(response);
-
-//       if (!response.ok) {
-//         console.log("there is an error");
-//       }
-//       // return response.json();
-
-//       else if(response.ok)
-//       {
-//         // example.style.visibility = 'hidden';
-//         return response.json();
-//       }
-//     })
-
-//     .then((json) =>
-//       console.log(json);
-//       localStorage.setItem("token", response.data.token)
-//       localStorage.setItem("user", JSON.stringify(response.data.user))
-//   )
-//     .catch((err) => console.log(err.message));
-//   // console.log("Username:", username, "Password:", password);
-// }
 
 // when the user want to log in
 
@@ -214,39 +172,6 @@ function showLogoutMsg(message) {
   appendAlert(message);
 }
 
-// dispaly and hide buttton of login logout and register
-function SetupUI() {
-  const token = localStorage.getItem("token");
-  const loggedIN = document.querySelector("#logged-in");
-  const logOut = document.getElementById("logged-out");
-  const ApiUser = document.getElementById("api-username");
-  const createPostButton = document.getElementById("createPostButton");
-
-  if (token == null) {
-    logOut.style.setProperty("display", "none", "important");
-    loggedIN.style.setProperty("display", "block", "important");
-    ApiUser.style.setProperty("display", "none", "important");
-    createPostButton.style.setProperty("display", "none", "important");
-  } else {
-    logOut.style.setProperty("display", "block", "important");
-    loggedIN.style.setProperty("display", "none", "important");
-    ApiUser.style.setProperty("display", "block", "important");
-    createPostButton.style.setProperty("display", "block", "important");
-
-    const user = JSON.parse(localStorage.getItem("user"));
-    console.log(user);
-    if (user) {
-      ApiUser.innerHTML = user.username;
-    }
-  }
-}
-
-function logout() {
-  localStorage.removeItem("token");
-  localStorage.removeItem("user");
-  SetupUI();
-  showLogoutMsg("You have logged out");
-}
 
 function createPost() {
   const title = document.getElementById("postTitle").value;
@@ -294,3 +219,38 @@ function createPost() {
       console.error("Error creating post:", error);
     });
 }
+// dispaly and hide buttton of login logout and register
+function SetupUI() {
+  const token = localStorage.getItem("token");
+  const loggedIN = document.querySelector("#logged-in");
+  const logOut = document.getElementById("logged-out");
+  const ApiUser = document.getElementById("api-username");
+  const createPostButton = document.getElementById("createPostButton");
+
+  if (token == null) {
+    createPostButton.style.setProperty("display", "none", "important");
+    logOut.style.setProperty("display", "none", "important");
+    loggedIN.style.setProperty("display", "block", "important");
+    ApiUser.style.setProperty("display", "none", "important");
+  } else {
+    createPostButton.style.setProperty("display", "block", "important");
+    logOut.style.setProperty("display", "block", "important");
+    loggedIN.style.setProperty("display", "none", "important");
+    ApiUser.style.setProperty("display", "block", "important");
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    console.log(user);
+    if (user) {
+      ApiUser.innerHTML = `@${user.username}`;
+    }
+  }
+}
+
+function logout() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+  SetupUI();
+  showLogoutMsg("You have logged out");
+}
+
+
