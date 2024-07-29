@@ -7,6 +7,7 @@ fetch(`${apiUrl}/posts`)
     const postsContainer = document.getElementById("posts-container");
 
     const postsArray = Object.values(data.data);
+   
 
     postsArray.forEach((post) => {
       const postCard = `
@@ -30,13 +31,10 @@ fetch(`${apiUrl}/posts`)
                   </div>
               `;
       postsContainer.innerHTML += postCard;
+
     });
 
-    // document.getElementById("post-tags").innerHTML = "";
 
-    // data.data.forEach(tag => {
-    //     console.log(tag);
-    // });
   })
   .catch((error) => console.error("Error fetching posts:", error));
 
@@ -65,11 +63,11 @@ fetch(`${apiUrl}/posts`)
 //       if (!response.ok) {
 //         console.log("there is an error");
 //       }
-//       // return response.json();
+//       return response.json();
 
 //       else if(response.ok)
 //       {
-//         // example.style.visibility = 'hidden';
+//         example.style.visibility = 'hidden';
 //         return response.json();
 //       }
 //     })
@@ -80,7 +78,7 @@ fetch(`${apiUrl}/posts`)
 //       localStorage.setItem("user", JSON.stringify(response.data.user))
 //   )
 //     .catch((err) => console.log(err.message));
-//   // console.log("Username:", username, "Password:", password);
+//   console.log("Username:", username, "Password:", password);
 // }
 
 // when the user want to log in
@@ -112,12 +110,12 @@ function loginBtnClicked() {
     .then((json) => {
       // Log the JSON response for debugging
       // Check if 'token' and 'user' exist in the JSON response
-      // if (json.token && json.user) {
-      //   localStorage.setItem("token", json.token);
-      //   localStorage.setItem("user", JSON.stringify(json.user));
-      // } else {
-      //   throw new Error("Token or user data missing in response");
-      // }
+      if (json.token && json.user) {
+        localStorage.setItem("token", json.token);
+        localStorage.setItem("user", JSON.stringify(json.user));
+      } else {
+        throw new Error("Token or user data missing in response");
+      }
       localStorage.setItem("token", json.token);
       localStorage.setItem("user", JSON.stringify(json.user));
 
@@ -125,7 +123,7 @@ function loginBtnClicked() {
       modalInstance.hide(); // how to hide the window on bootsrap by adding hide function
       SetupUI();
       showSuccessMsg("You have successfully logged in");
-      // console.log(json.user.username);
+      console.log(json.user.username);
 
       ApiUser.innerHTML = json.user.username;
     })
