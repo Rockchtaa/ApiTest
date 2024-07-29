@@ -68,22 +68,21 @@
                 >
                   Register
                 </button>
-                <button
-                  id="createPostButton"
-                  type="button"
-                  class="btn btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#createPostModal"
-                  style="display: none"
-                >
-                  Create Post
-                </button>
               </div>
             </div>
             <div id="api-username" class="btn btn-danger"></div>
             <div id="api-profile"></div>
 
             <div class="d-flex w-100 justify-content-end">
+              <button
+                id="createPostButton"
+                type="button"
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#createPostModal"
+              >
+                Create Post
+              </button>
               <button
                 id="logged-out"
                 onclick="logout()"
@@ -336,8 +335,8 @@
         </div>
       </div>
     </div>
-
     <!-- Create Post Modal -->
+
      
     <div
       class="modal fade"
@@ -349,7 +348,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="createPostModalLabel">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
               Create a New Post
             </h1>
             <button
@@ -385,6 +384,7 @@
                   type="file"
                   class="form-control"
                   id="postImage"
+                  accept="./profile-pics/03.jpg"
                   required
                 />
               </div>
