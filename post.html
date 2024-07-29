@@ -1,0 +1,65 @@
+<!-- post.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Post Details</title>
+    <link
+      rel="stylesheet"
+      href="/node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <script
+      src="/node_modules/bootstrap/dist/js/bootstrap.min.js"
+      defer
+    ></script>
+    <script src="main.js" defer></script>
+  </head>
+  <body>
+    <!-- I can add navbar also to this page but I am lazy to do it -->
+
+    <div id="post-container" style="display: flex; justify-content: center;"></div>
+
+    <script>
+      const apiUrl = "https://tarmeezacademy.com/api/v1";
+
+      // Function to get query parameter from URL
+      function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+      }
+
+      // Fetch and display post details
+      const postId = getQueryParam("id");
+      if (postId) {
+        fetch(`${apiUrl}/posts/${postId}`)
+          .then((response) => response.json())
+          .then((data) => {
+            const post = data.data;
+            const postContainer = document.getElementById("post-container");
+                const postDetails = `
+                <div class="card text-center mb-3" style="width:50%" >
+                  <div class="card-header">
+                    <img src="${post.author.profile_image}" style="height: 40px" class="rounded-circle" alt="">
+                    <p class="fw-bold">@${post.author.name}</p>
+                  </div>
+                  <div class="card-body">
+                    <img class="w-100" src="${post.image}" style="height: 250px; width: 100px;" alt="">
+                    <h5 class="mt-2">${post.author.username}</h5>
+                    <p class="mt-1">${post.title}</p>
+                    <p>${post.body}</p>
+                  </div>
+                  <div class="card-footer text-body-secondary">
+                    ${post.created_at} <span> / ${post.comments_count} Comments </span>
+                  </div>
+                </div>
+              `;
+            postContainer.innerHTML = postDetails;
+          })
+          .catch((error) =>
+            console.error("Error fetching post details:", error)
+          );
+      }
+    </script>
+  </body>
+</html>

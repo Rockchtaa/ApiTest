@@ -7,37 +7,31 @@ fetch(`${apiUrl}/posts`)
     const postsContainer = document.getElementById("posts-container");
 
     const postsArray = Object.values(data.data);
-   
 
     postsArray.forEach((post) => {
       const postCard = `
-                  <div class="card text-center mb-3">
-                      <div class="card-header">
-                          <img src="${post.author.profile_image}" style="height: 40px" class="rounded-circle" alt="">
-                          <p class="fw-bold">@${post.author.name}</p>
-                      </div>
-                      <div class="card-body">
-                          <img class="w-100" src="${post.image}" style="height: 250px; width: 100px;" alt="">
-                          <h5 class="mt-2">${post.author.username}</h5>
-                          <p class="mt-1">${post.title}</p>
-                      </div>
-                      <div class="card-footer text-body-secondary">
-                          ${post.created_at} <span> / ${post.comments_count} Comments </span>
-
-                          <span id="post-tags">
-                                <button class="btn btn-sm rounded-5" style="background-color:gray; color: white"> policy </button>                          
-                          </span>
-                      </div>
-                  </div>
-              `;
+        <a href="post.html?id=${post.id}" class="card text-center mb-3" style="text-decoration: none; color: inherit;">
+          <div class="card-header">
+            <img src="${post.author.profile_image}" style="height: 40px" class="rounded-circle" alt="">
+            <p class="fw-bold">@${post.author.name}</p>
+          </div>
+          <div class="card-body">
+            <img class="w-100" src="${post.image}" style="height: 250px; width: 100px;" alt="">
+            <h5 class="mt-2">${post.author.username}</h5>
+            <p class="mt-1">${post.title}</p>
+          </div>
+          <div class="card-footer text-body-secondary">
+            ${post.created_at} <span> / ${post.comments_count} Comments </span>
+            <span id="post-tags">
+              <button class="btn btn-sm rounded-5" style="background-color:gray; color: white">policy</button>
+            </span>
+          </div>
+        </a>
+      `;
       postsContainer.innerHTML += postCard;
-
     });
-
-
   })
   .catch((error) => console.error("Error fetching posts:", error));
-
 
 // when the user want to log in
 
@@ -170,7 +164,6 @@ function showLogoutMsg(message) {
   appendAlert(message);
 }
 
-
 function createPost() {
   const title = document.getElementById("postTitle").value;
   const body = document.getElementById("postBody").value;
@@ -250,5 +243,3 @@ function logout() {
   SetupUI();
   showLogoutMsg("You have logged out");
 }
-
-
