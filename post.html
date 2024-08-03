@@ -16,10 +16,26 @@
     <script src="main.js" defer></script>
   </head>
   <body>
-    <!-- I can add navbar also to this page but I am lazy to do it -->
-
-    <div id="post-container" style="display: flex; justify-content: center;"></div>
-
+    <div
+      id="post-container"
+      style="display: flex; justify-content: center"
+    ></div>
+    <div id="comments-container" class="container mt-5"></div>
+    <!-- Add a comment section -->
+    <div class="container mt-3">
+      <label for="add-comment" class="form-label">Add a comment:</label>
+      <div class="input-group">
+        <input
+          id="add-comment"
+          type="text"
+          class="form-control"
+          placeholder="Your comment here"
+        />
+        <button type="button" class="btn btn-primary" onclick="AddComment()">
+          Send
+        </button>
+      </div>
+    </div>
     <script>
       const apiUrl = "https://tarmeezacademy.com/api/v1";
 
@@ -29,36 +45,96 @@
         return urlParams.get(param);
       }
 
-      // Fetch and display post details
+      // Fetch and display post details and comments
       const postId = getQueryParam("id");
       if (postId) {
         fetch(`${apiUrl}/posts/${postId}`)
           .then((response) => response.json())
           .then((data) => {
             const post = data.data;
+            console.log(post);
             const postContainer = document.getElementById("post-container");
-                const postDetails = `
-                <div class="card text-center mb-3" style="width:50%" >
-                  <div class="card-header">
-                    <img src="${post.author.profile_image}" style="height: 40px" class="rounded-circle" alt="">
-                    <p class="fw-bold">@${post.author.name}</p>
-                  </div>
-                  <div class="card-body">
-                    <img class="w-100" src="${post.image}" style="height: 250px; width: 100px;" alt="">
-                    <h5 class="mt-2">${post.author.username}</h5>
-                    <p class="mt-1">${post.title}</p>
-                    <p>${post.body}</p>
-                  </div>
-                  <div class="card-footer text-body-secondary">
-                    ${post.created_at} <span> / ${post.comments_count} Comments </span>
-                  </div>
-                </div>
-              `;
+            const postDetails = `
+                    <div class="card text-center mb-3" style="width:50%">
+                      <div class="card-header">
+                        <img src="${post.author.profile_image}" style="height: 40px" class="rounded-circle" alt="">
+                        <p class="fw-bold">@${post.author.name}</p>
+                      </div>
+                      <div class="card-body">
+                        <img class="w-100" src="${post.image}" style="height: 250px; width: 100px;" alt="">
+                        <h5 class="mt-2">${post.author.username}</h5>
+                        <p class="mt-1">${post.title}</p>
+                        <p>${post.body}</p>
+                      </div>
+                      <div class="card-footer text-body-secondary">
+                        ${post.created_at} <span> / ${post.comments_count} Comments </span>
+                      </div>
+                    </div>
+                  `;
             postContainer.innerHTML = postDetails;
+
+            // Display comments
+            const commentsContainer =
+              document.getElementById("comments-container");
+            let commentsHTML = "<h3>Comments</h3>";
+            post.comments.forEach((comment) => {
+              commentsHTML += `
+                      <div class="card mb-3">
+                        <div class="card-header">
+                          <img src="${comment.author.profile_image}" style="height: 30px" class="rounded-circle" alt="">
+                          <p class="fw-bold">@${comment.author.name}</p>
+                        </div>
+                        <div class="card-body">
+                          <p>${comment.body}</p>
+                        </div>
+                      </div>
+                    `;
+            });
+            commentsContainer.innerHTML = commentsHTML;
           })
           .catch((error) =>
             console.error("Error fetching post details:", error)
           );
+        // add a comment
+        function AddComment() {
+          const addComment = document.getElementById("add-comment").value;
+          const token = localStorage.getItem("token");
+
+          fetch(`${apiUrl}/posts/${postId}/comments`, {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ body: addComment }),
+          })
+            .then((response) => response.json())
+            .then((comment) => {
+              if (comment.error) {
+                console.error("Error posting comment:", comment.error);
+                return;
+              }
+              // Clear the input field
+              document.getElementById("add-comment").value = "";
+
+              // Append the new comment to the comments section
+              const commentsContainer =
+                document.getElementById("comments-container");
+              const newCommentHTML = `
+                <div class="card mb-3">
+                  <div class="card-header">
+                    <img src="${comment.data.author.profile_image}" style="height: 30px" class="rounded-circle" alt="">
+                    <p class="fw-bold">@${comment.data.author.name}</p>
+                  </div>
+                  <div class="card-body">
+                    <p>${comment.data.body}</p>
+                  </div>
+                </div>
+              `;
+              commentsContainer.innerHTML += newCommentHTML;
+            })
+            .catch((err) => console.error("Error:", err.message));
+        }
       }
     </script>
   </body>
