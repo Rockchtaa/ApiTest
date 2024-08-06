@@ -8,17 +8,14 @@
       rel="stylesheet"
       href="/node_modules/bootstrap/dist/css/bootstrap.min.css"
     />
+    <link rel="stylesheet" href="style.css" />
     <script
       src="/node_modules/bootstrap/dist/js/bootstrap.min.js"
       defer
     ></script>
     <script src="main.js" defer></script>
   </head>
-  <style>
-    body {
-      background: #f0ecff;
-    }
-  </style>
+
   <body>
     <div class="container">
       <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -96,7 +93,7 @@
         </div>
       </nav>
     </div>
-    
+
     <div class="div" style="display: flex; justify-content: center">
       <div id="successAlert" style="width: 26%; text-align: center"></div>
     </div>
@@ -187,7 +184,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="register-modal">
+            <h1 class="modal-title fs-5" id="registerModalLabel">
               Register a new User:
             </h1>
             <button
@@ -244,9 +241,9 @@
         </div>
       </div>
     </div>
+
     <!-- Create Post Modal -->
 
-     
     <div
       class="modal fade"
       id="createPostModal"
