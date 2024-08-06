@@ -9,11 +9,13 @@
       rel="stylesheet"
       href="/node_modules/bootstrap/dist/css/bootstrap.min.css"
     />
+    <link rel="stylesheet" href="style.css" />
     <script
       src="/node_modules/bootstrap/dist/js/bootstrap.min.js"
       defer
     ></script>
     <script src="main.js" defer></script>
+    <script src="post.js"></script>
   </head>
   <body>
     <div
@@ -36,106 +38,67 @@
         </button>
       </div>
     </div>
-    <script>
-      const apiUrl = "https://tarmeezacademy.com/api/v1";
-
-      // Function to get query parameter from URL
-      function getQueryParam(param) {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(param);
-      }
-
-      // Fetch and display post details and comments
-      const postId = getQueryParam("id");
-      if (postId) {
-        fetch(`${apiUrl}/posts/${postId}`)
-          .then((response) => response.json())
-          .then((data) => {
-            const post = data.data;
-            console.log(post);
-            const postContainer = document.getElementById("post-container");
-            const postDetails = `
-                    <div class="card text-center mb-3" style="width:50%">
-                      <div class="card-header">
-                        <img src="${post.author.profile_image}" style="height: 40px" class="rounded-circle" alt="">
-                        <p class="fw-bold">@${post.author.name}</p>
-                      </div>
-                      <div class="card-body">
-                        <img class="w-100" src="${post.image}" style="height: 250px; width: 100px;" alt="">
-                        <h5 class="mt-2">${post.author.username}</h5>
-                        <p class="mt-1">${post.title}</p>
-                        <p>${post.body}</p>
-                      </div>
-                      <div class="card-footer text-body-secondary">
-                        ${post.created_at} <span> / ${post.comments_count} Comments </span>
-                      </div>
-                    </div>
-                  `;
-            postContainer.innerHTML = postDetails;
-
-            // Display comments
-            const commentsContainer =
-              document.getElementById("comments-container");
-            let commentsHTML = "<h3>Comments</h3>";
-            post.comments.forEach((comment) => {
-              commentsHTML += `
-                      <div class="card mb-3">
-                        <div class="card-header">
-                          <img src="${comment.author.profile_image}" style="height: 30px" class="rounded-circle" alt="">
-                          <p class="fw-bold">@${comment.author.name}</p>
-                        </div>
-                        <div class="card-body">
-                          <p>${comment.body}</p>
-                        </div>
-                      </div>
-                    `;
-            });
-            commentsContainer.innerHTML = commentsHTML;
-          })
-          .catch((error) =>
-            console.error("Error fetching post details:", error)
-          );
-        // add a comment
-        function AddComment() {
-          const addComment = document.getElementById("add-comment").value;
-          const token = localStorage.getItem("token");
-
-          fetch(`${apiUrl}/posts/${postId}/comments`, {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ body: addComment }),
-          })
-            .then((response) => response.json())
-            .then((comment) => {
-              if (comment.error) {
-                console.error("Error posting comment:", comment.error);
-                return;
-              }
-              // Clear the input field
-              document.getElementById("add-comment").value = "";
-
-              // Append the new comment to the comments section
-              const commentsContainer =
-                document.getElementById("comments-container");
-              const newCommentHTML = `
-                <div class="card mb-3">
-                  <div class="card-header">
-                    <img src="${comment.data.author.profile_image}" style="height: 30px" class="rounded-circle" alt="">
-                    <p class="fw-bold">@${comment.data.author.name}</p>
-                  </div>
-                  <div class="card-body">
-                    <p>${comment.data.body}</p>
-                  </div>
-                </div>
-              `;
-              commentsContainer.innerHTML += newCommentHTML;
-            })
-            .catch((err) => console.error("Error:", err.message));
-        }
-      }
-    </script>
+    <!-- Edit Post Modal -->
+    <div
+      class="modal fade"
+      id="editPostModal"
+      tabindex="-1"
+      aria-labelledby="editPostModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editPostModalLabel">Edit Post</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="editPostForm">
+              <div class="mb-3">
+                <label for="editPostTitle" class="form-label">Title</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="editPostTitle"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="editPostBody" class="form-label">Body</label>
+                <textarea
+                  class="form-control"
+                  id="editPostBody"
+                  rows="4"
+                  required
+                ></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="editPostImage" class="form-label"
+                  >Change Image</label
+                >
+                <input type="file" class="form-control" id="editPostImage" />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary" onclick="editPost()">
+              Save changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

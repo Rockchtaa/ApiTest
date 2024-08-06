@@ -14,6 +14,7 @@ fetch(`${apiUrl}/posts`)
           <div class="card-header">
             <img src="${post.author.profile_image}" style="height: 40px" class="rounded-circle" alt="">
             <p class="fw-bold">@${post.author.name}</p>
+            <button id="edit-Comment" style="display: none"> Edit</button>
           </div>
           <div class="card-body">
             <img class="w-100" src="${post.image}" style="height: 250px; width: 100px;" alt="">
@@ -32,8 +33,6 @@ fetch(`${apiUrl}/posts`)
     });
   })
   .catch((error) => console.error("Error fetching posts:", error));
-
-// when the user want to log in
 
 function loginBtnClicked() {
   const username = document.getElementById("userName").value;
